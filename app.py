@@ -48,8 +48,7 @@ def predict():
             "Insulin": safe_get(data, "Insulin"),
             "BMI": safe_get(data, "BMI"),
             "DiabetesPedigreeFunction": safe_get(data, "DiabetesPedigreeFunction"),
-            "Age": safe_get(data, "Age"),
-            "Gender": 1 if str(data.get("Gender", "Male")).lower().startswith('m') else 0
+            "Age": safe_get(data, "Age")
         }])
 
         proba = float(pipeline.predict_proba(X)[0][1])
@@ -70,7 +69,7 @@ def whatif_predict():
     data = request.get_json(force=True)
     try:
         # Fill missing with dataset mean values from stats
-        mean_vals = {k: stats['mean'].get(k, np.nan) for k in stats.get('mean', {})}
+        mean_vals = stats.get('mean', stats.get('median', {}))
 
         X = pd.DataFrame([{
             "Pregnancies": safe_get(data, "Pregnancies", mean_vals.get("Pregnancies")),
@@ -80,8 +79,7 @@ def whatif_predict():
             "Insulin": safe_get(data, "Insulin", mean_vals.get("Insulin")),
             "BMI": safe_get(data, "BMI", mean_vals.get("BMI")),
             "DiabetesPedigreeFunction": safe_get(data, "DiabetesPedigreeFunction", mean_vals.get("DiabetesPedigreeFunction")),
-            "Age": safe_get(data, "Age", mean_vals.get("Age")),
-            "Gender": 1 if str(data.get("Gender", "Male")).lower().startswith('m') else 0
+            "Age": safe_get(data, "Age", mean_vals.get("Age"))
         }])
 
         proba = float(pipeline.predict_proba(X)[0][1])

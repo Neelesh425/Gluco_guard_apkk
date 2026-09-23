@@ -1,1 +1,1 @@
-{"model_version": "v1.0", "model": "RandomForest", "notes": "Synthetic baseline model included for convenience."}
+{"model_version": "v2.0", "model": "XGBoost", "notes": "Trained on Pima Indians Diabetes Dataset with 5-fold CV"}

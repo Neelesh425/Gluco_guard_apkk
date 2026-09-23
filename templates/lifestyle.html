@@ -1,167 +1,82 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lifestyle Planner - SweetForecast</title>
-  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-   h1 {
-  margin-top: 40px;
-  font-size: 2.5rem;
-  color: cyan; /* Solid core color */
-  text-shadow:
-    0 0 4px rgba(0, 255, 255, 0.8),  /* inner glow */
-    0 0 8px rgba(0, 255, 255, 0.6),  /* medium glow */
-    0 0 12px rgba(0, 255, 255, 0.4); /* outer glow */
-}
-
-
-    .planner-container {
-      max-width: 900px;
-      width: 90%;
-      margin: 30px auto;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
-      border: 1px solid rgba(0, 255, 255, 0.2);
-    }
-
-    .goal-card h2 {
-      margin-top: 0;
-      font-size: 1.4rem;
-      color: cyan;
-      text-shadow: 0 0 5px cyan;
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    input[type="checkbox"] {
-      margin-right: 10px;
-      accent-color: cyan;
-      transform: scale(1.2);
-    }
-
-    .btn {
-      background: linear-gradient(90deg, #00e0ff, #00ff88);
-      color: black;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      box-shadow: 0 0 15px cyan;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 0 25px cyan;
-    }
-
-    .plan-section {
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .plan-card {
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 15px;
-      padding: 15px;
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
-      transform-style: preserve-3d;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .plan-card:hover {
-      transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
-      box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
-    }
-
-    .plan-card h3 {
-      color: #00ffea;
-      text-shadow: 0 0 5px #00ffea;
-    }
-
-    .plan-card ul {
-      padding-left: 20px;
-      list-style: disc;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlucoGuard — Lifestyle Planner</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-  <h1>Lifestyle Planner</h1>
-  <div class="planner-container">
-    <!-- Goal Selection -->
-    <div class="goal-card">
-      <h2>Select Your Goals</h2>
-      <label><input type="checkbox" name="goal" value="weight_loss"> Lose Weight</label>
-      <label><input type="checkbox" name="goal" value="lower_sugar"> Lower Blood Sugar</label>
-      <label><input type="checkbox" name="goal" value="exercise_more"> Increase Exercise</label>
-      <br>
-      <button class="btn" id="generatePlan">Generate Plan</button>
-    </div>
+  <div class="bg-particles"></div>
 
-    <!-- Generated Plan -->
-    <div class="plan-section" id="planOutput">
-      <!-- Plans appear here -->
+  <nav class="navbar">
+    <a class="nav-logo" href="/">🛡️ GlucoGuard</a>
+    <div class="nav-links">
+      <a href="/#predict">Predict</a>
+      <a href="/#insights">Insights</a>
+      <a href="/lifestyle" class="active">Lifestyle</a>
+      <a href="/#about">About</a>
     </div>
-  </div>
+  </nav>
+
+  <main class="lifestyle-container section visible">
+    <div class="section-header">
+      <h2>Lifestyle Action Plan</h2>
+      <p>Generate a personalized plan based on your health goals</p>
+    </div>
+    
+    <div class="glass-card">
+      <div class="goal-selector">
+        <select id="goalSelect" class="form-control" style="flex:1; background: rgba(0,0,0,0.2); color: white; border: 1px solid var(--glass-border); padding: 12px; border-radius: 8px;">
+          <option value="weight_loss">Weight Loss</option>
+          <option value="blood_sugar">Lower Blood Sugar</option>
+          <option value="active">More Active</option>
+        </select>
+        <button id="generatePlanBtn" class="btn btn-primary btn-glow">Generate Plan</button>
+      </div>
+      
+      <div id="planContent" class="plan-output">
+        <h3 style="margin-bottom:16px;">Your Plan</h3>
+        <p style="color:var(--text-muted)">Select a goal above to generate your customized lifestyle plan.</p>
+      </div>
+      
+      <div style="margin-top: 30px; text-align: center;">
+        <a href="/" class="btn btn-secondary">← Back to Predictor</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© Neelesh Ranjan — GlucoGuard | Powered by XGBoost ML</p>
+  </footer>
 
   <script>
-    const plans = {
-      weight_loss: {
-        title: "Weight Loss Plan",
-        details: ["Eat 500 calories less per day", "Include 30 min cardio", "Avoid sugary drinks"]
-      },
-      lower_sugar: {
-        title: "Lower Blood Sugar Plan",
-        details: ["Reduce refined carbs", "Eat high-fiber foods", "Monitor glucose after meals"]
-      },
-      exercise_more: {
-        title: "Exercise Boost Plan",
-        details: ["30 min brisk walk daily", "2x weekly strength training", "Stretch every morning"]
+    document.getElementById('generatePlanBtn').addEventListener('click', () => {
+      const goal = document.getElementById('goalSelect').value;
+      const content = document.getElementById('planContent');
+      
+      let html = '<ul style="list-style:none; padding:0;">';
+      if(goal === 'weight_loss') {
+        html += '<li style="margin-bottom:12px">🥗 <strong>Diet:</strong> Caloric deficit of 300-500 calories/day.</li>';
+        html += '<li style="margin-bottom:12px">🏃 <strong>Exercise:</strong> 45 mins of moderate cardio 5x/week.</li>';
+        html += '<li style="margin-bottom:12px">💧 <strong>Hydration:</strong> Drink before meals to feel full.</li>';
+      } else if (goal === 'blood_sugar') {
+        html += '<li style="margin-bottom:12px">🥦 <strong>Diet:</strong> Focus on low-GI foods, increase fiber intake.</li>';
+        html += '<li style="margin-bottom:12px">🚶 <strong>Exercise:</strong> 15-min walk after main meals.</li>';
+        html += '<li style="margin-bottom:12px">😴 <strong>Sleep:</strong> 7-8 hours of quality sleep to improve insulin sensitivity.</li>';
+      } else {
+        html += '<li style="margin-bottom:12px">🏋️ <strong>Exercise:</strong> Mix of strength training and cardio 4x/week.</li>';
+        html += '<li style="margin-bottom:12px">🧘 <strong>Flexibility:</strong> Daily stretching or yoga for 10 mins.</li>';
+        html += '<li style="margin-bottom:12px">🔋 <strong>Energy:</strong> Regular balanced meals to fuel activities.</li>';
       }
-    };
-
-    document.getElementById("generatePlan").addEventListener("click", () => {
-      const selected = Array.from(document.querySelectorAll('input[name="goal"]:checked')).map(cb => cb.value);
-      const planOutput = document.getElementById("planOutput");
-      planOutput.innerHTML = "";
-
-      if (selected.length === 0) {
-        planOutput.innerHTML = "<p style='color:tomato;'>Please select at least one goal.</p>";
-        return;
-      }
-
-      selected.forEach(goal => {
-        const card = document.createElement("div");
-        card.className = "plan-card";
-        card.innerHTML = `<h3>${plans[goal].title}</h3><ul>${plans[goal].details.map(d => `<li>${d}</li>`).join('')}</ul>`;
-        planOutput.appendChild(card);
-      });
+      html += '</ul>';
+      
+      content.innerHTML = '<h3 style="margin-bottom:16px; color:var(--accent-cyan)">Your Personalized Plan</h3>' + html;
     });
   </script>
 </body>

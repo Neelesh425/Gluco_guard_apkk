@@ -1,170 +1,208 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SweetForecast - BlueCyan Diabetes Predictor</title>
-  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-
-  <!-- Load model-viewer early -->
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlucoGuard — Diabetes Risk Predictor</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js" defer></script>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="nav">
-    <a class="logo" href="/">SweetForecast</a>
+  <div class="bg-particles"></div>
+
+  <nav class="navbar">
+    <a class="nav-logo" href="/">🛡️ GlucoGuard</a>
     <div class="nav-links">
       <a href="#predict">Predict</a>
+      <a href="#insights">Insights</a>
       <a href="/lifestyle">Lifestyle</a>
       <a href="#about">About</a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <header class="hero">
-    <div class="hero-left">
-      <h1>SweetForecast</h1>
-      <p class="tag">See Your Risk, Shape Your Future</p>
-      <a class="btn" href="#predict">Start Prediction</a>
+    <div class="hero-content">
+      <h1 class="hero-title">Know Your <span class="gradient-text">Diabetes Risk</span></h1>
+      <p class="hero-subtitle">AI-powered prediction using clinical parameters. Fast, private, and accurate.</p>
+      <a class="btn btn-primary btn-glow" href="#predict">Start Assessment →</a>
     </div>
-    <div class="hero-right">
-      <div class="model-placeholder" data-model="dna.glb" style="width:100%; height:420px;">
-        <div class="missing">Loading model…</div>
+    <div class="hero-model">
+      <div class="model-placeholder" data-model="dna.glb" style="width:100%;height:420px;">
+        <div class="loading-text">Loading 3D model…</div>
       </div>
     </div>
   </header>
 
-  <main class="main">
-    <!-- Prediction Form -->
-    <section id="predict" class="predict-section">
-      <div class="left-panel">
-        <h2>Diabetes Predictor</h2>
-        <form id="predictForm">
-          <label>Gender
-            <select id="form_gender" name="Gender">
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-          </label>
-
-          <label>Pregnancies <input id="form_pregnancies" name="Pregnancies" type="number" min="0" value="1"></label>
-          <label>Glucose <input id="form_glucose" name="Glucose" type="number" min="0" value="117"></label>
-          <label>Blood Pressure <input id="form_bloodpressure" name="BloodPressure" type="number" min="0" value="72"></label>
-          <label>SkinThickness <input id="form_skinthickness" name="SkinThickness" type="number" min="0" value="20"></label>
-          <label>Insulin <input id="form_insulin" name="Insulin" type="number" min="0" value=""></label>
-          <label>BMI <input id="form_bmi" name="BMI" type="number" step="0.1" value="32.0"></label>
-          <label>Diabetes Pedigree Function <input id="form_dpf" name="DiabetesPedigreeFunction" type="number" step="0.01" value="0.47"></label>
-          <label>Age <input id="form_age" name="Age" type="number" min="0" value="30"></label>
-
-          <div class="buttons">
-            <button id="clearBtn" type="button">Reset</button>
-            <button id="submitBtn" type="submit">Predict</button>
+  <main>
+    <section id="predict" class="section predict-section">
+      <div class="section-header">
+        <h2>Diabetes Risk Assessment</h2>
+        <p>Enter your health parameters below</p>
+      </div>
+      <div class="predict-grid">
+        <div class="glass-card form-card">
+          <form id="predictForm">
+            <div class="form-group">
+              <label for="Pregnancies">Pregnancies <span class="tooltip">ℹ️<span class="tooltip-text">Number of times pregnant</span></span></label>
+              <input type="number" id="Pregnancies" name="Pregnancies" min="0" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="Glucose">Glucose <span class="tooltip">ℹ️<span class="tooltip-text">Plasma glucose concentration (mg/dL)</span></span></label>
+              <input type="number" id="Glucose" name="Glucose" min="0" placeholder="mg/dL" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="BloodPressure">Blood Pressure <span class="tooltip">ℹ️<span class="tooltip-text">Diastolic blood pressure (mm Hg)</span></span></label>
+              <input type="number" id="BloodPressure" name="BloodPressure" min="0" placeholder="mm Hg" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="SkinThickness">Skin Thickness <span class="tooltip">ℹ️<span class="tooltip-text">Triceps skin fold thickness (mm)</span></span></label>
+              <input type="number" id="SkinThickness" name="SkinThickness" min="0" placeholder="mm" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="Insulin">Insulin <span class="tooltip">ℹ️<span class="tooltip-text">2-Hour serum insulin (μU/mL)</span></span></label>
+              <input type="number" id="Insulin" name="Insulin" min="0" placeholder="μU/mL" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="BMI">BMI <span class="tooltip">ℹ️<span class="tooltip-text">Body mass index (weight in kg/(height in m)^2)</span></span></label>
+              <input type="number" id="BMI" name="BMI" step="0.1" placeholder="kg/m²" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="DiabetesPedigreeFunction">Pedigree Function <span class="tooltip">ℹ️<span class="tooltip-text">Diabetes pedigree function (0.0 - 2.5)</span></span></label>
+              <input type="number" id="DiabetesPedigreeFunction" name="DiabetesPedigreeFunction" step="0.01" placeholder="0.0 - 2.5" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="Age">Age <span class="tooltip">ℹ️<span class="tooltip-text">Age in years</span></span></label>
+              <input type="number" id="Age" name="Age" min="1" required>
+            </div>
+            
+            <div class="form-actions">
+              <button type="reset" class="btn btn-secondary">Reset</button>
+              <button type="submit" class="btn btn-primary btn-glow">Predict</button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="glass-card result-card" id="resultCard">
+          <h3>Your Risk Profile</h3>
+          <div class="gauge-container">
+            <svg id="gauge" viewBox="0 0 200 120" class="risk-gauge"></svg>
           </div>
-        </form>
-
-        <div class="result-card">
-          <h3>Risk</h3>
-          <div id="probText">—</div>
-          <div id="categoryText"></div>
-          <svg id="gauge" viewBox="0 0 100 70" width="180"></svg>
-          <div id="topFactors"></div>
+          <div class="risk-display">
+            <div class="risk-percentage" id="probText">—</div>
+            <div class="risk-category" id="categoryText">Enter your details and click Predict</div>
+          </div>
+          <div class="risk-factors" id="topFactors"></div>
         </div>
       </div>
+    </section>
 
-      <div class="right-panel">
-        <div class="model-wrap">
-          <div id="glucoseModel" class="model-placeholder" data-model="glucose.glb" style="width:100%; height:520px;">
-            <div class="missing">Loading model…</div>
+    <section id="insights" class="section insights-section">
+      <div class="section-header">
+        <h2>Insights & Analysis</h2>
+      </div>
+      <div class="insights-grid">
+        <div class="glass-card chart-card">
+          <h4>📊 Prediction History</h4>
+          <canvas id="trendChart"></canvas>
+        </div>
+        <div class="glass-card chart-card">
+          <h4>🎯 Feature Importance</h4>
+          <canvas id="fiChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="insights-grid" style="margin-top:20px">
+        <div class="glass-card sim-card">
+          <h4>🧪 Blood Sugar Simulator</h4>
+          <div class="sim-controls">
+            <label>Carbs (grams): <input id="simCarbs" type="number" value="50" min="0"></label>
+            <label>Insulin units: <input id="simInsulin" type="number" value="0" min="0"></label>
+            <button id="runSim" class="btn btn-primary">Run Simulation</button>
+          </div>
+          <canvas id="simChart"></canvas>
+        </div>
+        
+        <div class="glass-card whatif-card">
+          <h4>🔮 Quick What-If</h4>
+          <div class="slider-group">
+            <label>Glucose: <span id="wf_value_glucose">117</span>
+              <input id="wf_glucose" type="range" min="50" max="250" value="117">
+            </label>
+            <label>BMI: <span id="wf_value_bmi">32</span>
+              <input id="wf_bmi" type="range" min="15" max="60" value="32">
+            </label>
+            <label>Age: <span id="wf_value_age">30</span>
+              <input id="wf_age" type="range" min="10" max="90" value="30">
+            </label>
+          </div>
+          <button id="wf_apply" class="btn btn-secondary">Apply to Form</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="whatif" class="section whatif-section">
+      <div class="section-header">
+        <h2>Interactive Risk Simulator</h2>
+        <p>Adjust the sliders to see how your risk changes in real time</p>
+      </div>
+      <div class="glass-card simulator-card">
+        <div class="sim-sliders">
+          <div class="slider-item">
+            <label>Age: <span id="ageVal">30</span></label>
+            <input id="sim_age" type="range" min="10" max="90" value="30">
+          </div>
+          <div class="slider-item">
+            <label>Weight (kg): <span id="weightVal">70</span></label>
+            <input id="sim_weight" type="range" min="40" max="150" value="70">
+          </div>
+          <div class="slider-item">
+            <label>Insulin Level: <span id="insulinVal">80</span></label>
+            <input id="sim_insulin" type="range" min="0" max="300" value="80">
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Extras -->
-    <section id="extras" class="extras-section">
-      <h3>Interactive visualizations & simulators</h3>
-      <div class="viz-grid">
-        <div class="chart-card">
-          <h4>Risk trend (history)</h4>
-          <canvas id="trendChart" height="180"></canvas>
-        </div>
-        <div class="fi-card">
-          <h4>Feature importances</h4>
-          <canvas id="fiChart" height="180"></canvas>
-        </div>
-      </div>
-      <div class="sim-whatif">
-        <div class="sim-card">
-          <h4>Blood sugar simulator</h4>
-          <label>Carbs (grams): <input id="simCarbs" type="number" value="50" min="0"></label>
-          <label>Insulin units: <input id="simInsulin" type="number" value="0" min="0"></label>
-          <button id="runSim" class="btn">Run Simulation</button>
-          <canvas id="simChart" height="160"></canvas>
-        </div>
-        <div class="whatif-card">
-          <h4>What-if panel</h4>
-          <label>Glucose: <input id="wf_glucose" type="range" min="50" max="250" value="117"></label>
-          <div id="wf_value_glucose">117</div>
-          <label>BMI: <input id="wf_bmi" type="range" min="15" max="60" value="32"></label>
-          <div id="wf_value_bmi">32</div>
-          <label>Age: <input id="wf_age" type="range" min="10" max="90" value="30"></label>
-          <div id="wf_value_age">30</div>
-          <button id="wf_apply" class="btn">Apply to form</button>
+        <div class="sim-chart-container">
+          <canvas id="riskChart"></canvas>
         </div>
       </div>
     </section>
 
-    <!-- What-If Risk Simulator -->
-    <section id="whatif" class="whatif-section">
-      <h3>What-If Risk Simulator</h3>
-      <p>Adjust the sliders below to see how your diabetes risk changes in real time.</p>
-
-      <div class="sliders">
-        <label>Age: <span id="ageVal">30</span>
-          <input id="sim_age" type="range" min="10" max="90" value="30">
-        </label>
-
-        <label>Weight (kg): <span id="weightVal">70</span>
-          <input id="sim_weight" type="range" min="40" max="150" value="70">
-        </label>
-
-        <label>Insulin Level: <span id="insulinVal">80</span>
-          <input id="sim_insulin" type="range" min="0" max="300" value="80">
-        </label>
-      </div>
-
-      <!-- Chart for risk -->
-     <div style="width: 50%; height: 50vh; margin: auto;">
-    <canvas id="riskChart"></canvas>
-</div>
-
-
-    </section>
-
-    <!-- About -->
-    <section id="about" class="about-section">
-      <div class="about-left">
-        <h2>About & Tips</h2>
-        <p>Personalized suggestions based on your risk profile will be shown here.</p>
+    <section id="about" class="section about-section">
+      <div class="glass-card about-content">
+        <h2>About & Health Tips</h2>
+        <p>GlucoGuard uses an XGBoost machine learning model trained on clinical diabetes data to estimate your risk.</p>
         <ul id="lifestyleTips">
-          <li>Improve diet: reduce refined carbs</li>
-          <li>Exercise: aim for 30 minutes daily</li>
-          <li>Monitor sleep and stress</li>
+          <li>🥗 Improve diet: reduce refined carbs and sugar</li>
+          <li>🏃 Exercise: aim for 30 minutes of activity daily</li>
+          <li>😴 Monitor sleep quality and manage stress</li>
+          <li>💧 Stay hydrated — drink at least 8 glasses of water</li>
+          <li>📋 Regular health checkups with your doctor</li>
         </ul>
+        <p class="disclaimer">⚠️ This tool is for educational purposes only. Always consult a healthcare professional for medical advice.</p>
       </div>
-      <div class="about-right">
-        <div class="model-placeholder" data-model="heartbeat.glb" style="width:100%; height:320px;">
-          <div class="missing">Loading model…</div>
+      <div class="about-model">
+        <div class="model-placeholder" data-model="heartbeat.glb" style="width:100%;height:320px;">
+          <div class="loading-text">Loading 3D model…</div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    © Neelesh Ranjan - SweetForecast
+    <p>© Neelesh Ranjan — GlucoGuard | Powered by XGBoost ML</p>
   </footer>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/whatif.js') }}" defer></script>
